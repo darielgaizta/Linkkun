@@ -1,0 +1,50 @@
+{% load static %}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script type="text/javascript" src="{% static 'script.js' %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'stylesheet.css' %}">
+		<title>{{user.username}} - Home</title>
+	</head>
+	<body>
+		<div class="container">
+			<nav>
+				<h1>Welcome, {{user.username}}!</h1>
+				<a class="nav-link" onclick="alert('Sorry, no content available.')"><i class="fa fa-info-circle" aria-hidden="true"></i><span>Info</span></a>
+				<a class="nav-link"><i class="fa fa-plus-square" aria-hidden="true"></i><span>Add</span><i class="fa fa-chevron-down down" onclick="popForm('add', 'block')" aria-hidden="true"></i><i class="fa fa-chevron-up up" onclick="popForm('add', 'none')" aria-hidden="true"></i></a>
+				<form method="POST" action="add" class="nav-form add" id="add">
+					{% csrf_token %}
+					<label>Name</label>
+					<input type="text" name="name">
+					<label>URL</label>
+					<input type="text" name="urls">
+					<input type="hidden" name="cred" value="{{user.id}}">
+					<input type="hidden" name="username" value="{{user.username}}">
+					<input type="submit" class="submit" value="Add">
+				</form>
+				<a class="nav-link"><i class="fa fa-trash" aria-hidden="true"></i><span>Delete</span><i class="fa fa-chevron-down down" onclick="popForm('delete', 'block')" aria-hidden="true"></i><i class="fa fa-chevron-up up" onclick="popForm('delete', 'none')" aria-hidden="true"></i></a>
+				<form method="POST" action="delete" class="nav-form delete" id="delete">
+					{% csrf_token %}
+					<label>Name</label>
+					<input type="text" name="name">
+					<input type="hidden" name="cred" value="{{user.id}}">
+					<input type="hidden" name="username" value="{{user.username}}">
+					<input type="submit" class="submit" value="Delete">
+				</form>
+				<a href="logout" class="nav-link out"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Log out</span></a>
+				<p>Number of links: {{total}}</p>
+				{% for message in messages %}
+				<p style="color: red">{{message}}</p>
+				{% endfor %}
+			</nav>
+			<main class="link-wrapper">
+				<h1>LINK(S):</h1><hr>
+				{% for link in links %}
+				<a href="{{link.urls}}" target="_blank" class="link">{{link.name}}</a>
+				{% endfor %}
+			</main>
+		</div>
+	</body>
+</html>

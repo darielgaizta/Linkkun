@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script type="text/javascript" src="{% static 'script.js' %}"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'stylesheet.css' %}">
+		<title>Link-kun</title>
+	</head>
+	<body>
+		<div class="container">
+			<i class="fa fa-question-circle" aria-hidden="true" onclick="alert('In order to use Link-kun, you have to create an account by signing up. If already have an account, you may log in to continue.')"></i>
+			<header>
+				<figure>
+					<img src="../static/assets/linkkun.png" alt="Picture of Link-kun">
+					<figcaption><b>LINK-KUN</b></figcaption>
+				</figure>
+				<p>"Hi, I'm Link-kun, I will store all the links you have in my storage. You can store links anytime and anywhere. I will make sure that your links are safe and you will be able to access it easily. Come take advantages from me since I'm reliable and FREE!" -Link-kun</p>
+			</header>
+			<main>
+				<div class="btn-menu-wrapper">
+					<button class="btn menu" id="btn-signup" onclick="openMenu('signup','login')">SIGN UP</button>
+					<button class="btn menu" id="btn-login" onclick="openMenu('login','signup')">LOG IN</button>
+				</div><hr>
+				<div>
+					<form method="POST" action="signup" id="signup" class="form signup">
+						{% csrf_token %}
+						<label>Email</label>
+						<input type="email" name="email" required>
+						<label>Username</label>
+						<input type="text" name="username" required>
+						<label>Password</label>
+						<input type="password" name="password1" required>
+						<label>Repeat password</label>
+						<input type="password" name="password2" required>
+						<input type="submit" class="btn submit" name="signup" value="Sign Up">
+					</form>
+					<form method="POST" action="login" id="login" class="form login">
+						{% csrf_token %}
+						<label>Username</label>
+						<input type="text" name="username" required>
+						<label>Password</label>
+						<input type="password" name="password" required>
+						<input type="submit" class="btn submit" name="login" value="Log In">
+					</form>
+					{% for message in messages %}
+					<p style="color: red;">{{message}}</p>
+					{% endfor %}
+				</div>
+			</main>
+		</div>
+	</body>
+</html>
