@@ -1,0 +1,1 @@
+web: gunicorn Linkkun.wsgi:application --log-file -
